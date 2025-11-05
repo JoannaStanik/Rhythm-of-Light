@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - key: 97
-    time: 1
-  - key: 115
     time: 2
-  - key: 100
+  - key: 115
     time: 3
-  - key: 119
+  - key: 100
     time: 4
+  - key: 119
+    time: 5
   allowedEarly: 0.12
   allowedLate: 0.12
   perfectWindow: 0.05
