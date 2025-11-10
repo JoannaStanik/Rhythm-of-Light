@@ -1,6 +1,5 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class QTEManager : MonoBehaviour
 {
@@ -11,19 +10,19 @@ public class QTEManager : MonoBehaviour
     public PromptIcon promptPrefab;
     public ScoreSystem score;
 
-    [Header("Wizualne zbli¿anie siê kroku")]
-    [Tooltip("Im wiêksza wartoœæ, tym szybciej prompty staj¹ siê widoczne przed czasem kroku.")]
-    public float appearWindow = 1.0f;
+    [Header("Wizualne zbliÅ¼anie siÄ™ kroku")]
+    [Tooltip("Ile sekund przed czasem kroku ikonka zaczyna byÄ‡ widoczna")]
+    public float appearWindow = 1f;
 
-    PromptIcon[] _icons;
-    bool[] _resolved;
+    private PromptIcon[] _icons;
+    private bool[] _resolved;
+    private bool _active = false;
 
     void Start()
     {
         if (sequence == null || sequence.steps == null || sequence.steps.Length == 0)
         {
-            Debug.LogWarning("QTEManager: Brak sekwencji kroków!");
-            enabled = false;
+            Debug.LogWarning("QTEManager: Brak sekwencji krokÃ³w!");
             return;
         }
 
@@ -34,13 +33,16 @@ public class QTEManager : MonoBehaviour
         {
             var icon = Instantiate(promptPrefab, promptRoot);
             icon.SetKey(sequence.steps[i].key);
-            icon.SetAlpha(0.15f);
+            icon.SetAlpha(0f);
             _icons[i] = icon;
         }
     }
 
     void Update()
     {
+        if (!_active)
+            return;
+
         float t = music ? music.MusicTime : Time.time;
 
         for (int i = 0; i < sequence.steps.Length; i++)
@@ -50,11 +52,10 @@ public class QTEManager : MonoBehaviour
             var step = sequence.steps[i];
             float delta = t - step.time;
 
-            float a = Mathf.InverseLerp(-appearWindow, 0f, -Mathf.Abs(delta));
-            a = Mathf.Clamp01(a + 0.15f);
-            _icons[i].SetAlpha(a);
+            float alpha = Mathf.InverseLerp(appearWindow, 0f, Mathf.Abs(delta));
+            alpha = Mathf.Clamp01(1f - alpha);
+            _icons[i].SetAlpha(alpha);
 
-            // Wejœcie gracza
             if (Input.GetKeyDown(step.key))
             {
                 float early = -sequence.allowedEarly;
@@ -62,28 +63,45 @@ public class QTEManager : MonoBehaviour
 
                 if (delta >= early && delta <= late)
                 {
-                    // Trafienie
                     _resolved[i] = true;
                     _icons[i].SetHit();
-                    float deltaAbs = Mathf.Abs(delta);
-                    score.RegisterHit(deltaAbs, sequence.perfectWindow, sequence.goodWindow);
+
+                    if (score != null)
+                    {
+                        float deltaAbs = Mathf.Abs(delta);
+                        score.RegisterHit(deltaAbs, sequence.perfectWindow, sequence.goodWindow);
+                    }
                 }
                 else
                 {
-                    // Z³y timing = Miss
                     _resolved[i] = true;
                     _icons[i].SetMiss();
-                    score.RegisterMiss();
+                    if (score != null)
+                        score.RegisterMiss();
                 }
             }
 
-            // Zbyt póŸno — Miss
             if (delta > sequence.allowedLate && !_resolved[i])
             {
                 _resolved[i] = true;
                 _icons[i].SetMiss();
-                score.RegisterMiss();
+                if (score != null)
+                    score.RegisterMiss();
             }
         }
+    }
+
+    public void StartQTE()
+    {
+        _active = true;
+        if (music != null)
+            music.Play();
+    }
+
+    public void StopQTE()
+    {
+        _active = false;
+        if (music != null)
+            music.Stop();
     }
 }
