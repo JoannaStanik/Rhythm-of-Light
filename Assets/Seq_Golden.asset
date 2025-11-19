@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1c24bfd2348cce4aae7f89d5c527553, type: 3}
-  m_Name: Seq_Intro
+  m_Name: Seq_Golden
   m_EditorClassIdentifier: 
   steps:
   - key: 97
-    time: 3
+    delay: 2
   - key: 115
-    time: 4
+    delay: 0.5
   - key: 100
-    time: 5
+    delay: 2
   - key: 119
-    time: 6
+    delay: 0.75
   allowedEarly: 0.12
   allowedLate: 0.12
   perfectWindow: 0.05

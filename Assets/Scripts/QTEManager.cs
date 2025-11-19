@@ -9,6 +9,7 @@ public class QTEManager : MonoBehaviour
     public RectTransform promptRoot;
     public PromptIcon promptPrefab;
     public ScoreSystem score;
+    public GameObject scorePanel;
 
     [Header("Wizualne zbliżanie się kroku")]
     public float appearWindow = 1f;
@@ -25,6 +26,7 @@ public class QTEManager : MonoBehaviour
     private PromptIcon[] _icons;
     private RectTransform[] _rects;
     private bool[] _resolved;
+    private float[] _stepTimes;
     private bool _active = false;
 
     void Start()
@@ -39,9 +41,15 @@ public class QTEManager : MonoBehaviour
         _icons = new PromptIcon[count];
         _rects = new RectTransform[count];
         _resolved = new bool[count];
+        _stepTimes = new float[count];
 
+
+        float runningTime = 0f;
         for (int i = 0; i < count; i++)
         {
+            runningTime += sequence.steps[i].delay;
+            _stepTimes[i] = runningTime;
+
             var icon = Instantiate(promptPrefab, promptRoot);
             icon.SetKey(sequence.steps[i].key);
             icon.SetAlpha(0f);
@@ -55,6 +63,9 @@ public class QTEManager : MonoBehaviour
             _icons[i] = icon;
             _rects[i] = rt;
         }
+
+        if (scorePanel != null)
+            scorePanel.SetActive(false);
     }
 
     void Update()
@@ -69,11 +80,11 @@ public class QTEManager : MonoBehaviour
             if (_resolved[i]) 
                 continue;
 
-            var step = sequence.steps[i];
-            float delta = t - step.time;
+            float stepTime = _stepTimes[i];
+            float delta = t - stepTime;
 
-            float travelStart = step.time - appearWindow;
-            float travelEnd = step.time;
+            float travelStart = stepTime - appearWindow;
+            float travelEnd = stepTime;
 
             float fallT = Mathf.InverseLerp(travelStart, travelEnd, t);
             fallT = Mathf.Clamp01(fallT);
@@ -84,7 +95,7 @@ public class QTEManager : MonoBehaviour
 
             _icons[i].SetAlpha(fallT);
 
-            if (Input.GetKeyDown(step.key))
+            if (Input.GetKeyDown(sequence.steps[i].key))
             {
                 float early = -sequence.allowedEarly;
                 float late = sequence.allowedLate;
@@ -140,6 +151,9 @@ public class QTEManager : MonoBehaviour
         if (score != null)
             score.ResetScore();
 
+        if (sequence != null)
+            scorePanel.SetActive(true);
+
         if (music != null)
             music.Play();
     }
@@ -149,5 +163,8 @@ public class QTEManager : MonoBehaviour
         _active = false;
         if (music != null)
             music.Stop();
+
+        if (scorePanel != null) 
+            scorePanel.SetActive(false);
     }
 }

@@ -7,14 +7,13 @@ public class DanceSequence : ScriptableObject
     public struct Step
     {
         public KeyCode key;
-        public float time;
+        public float delay;
     }
 
-    [Header("Kroki sekwencji (czas w sekundach)")]
+    [Header("Kroki sekwencji (opóŸnienie po poprzednim kroku)")]
     public Step[] steps;
 
     [Header("Okna czasowe trafienia")]
-    [Tooltip("Maks. wczeœniejsze trafienie (s)")]
     public float allowedEarly = 0.12f;
     [Tooltip("Maks. spóŸnienie (s)")]
     public float allowedLate = 0.12f;
