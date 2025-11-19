@@ -8,47 +8,84 @@ public class ScoreSystem : MonoBehaviour
     public Text comboText;
     public Text feedbackText;
 
-    int _score;
-    int _combo;
+    [Header("Wartoœci")]
+    public int score;
+    public int combo;
+    public int maxCombo;
 
-    void Start()
+    public void ResetScore()
     {
+        score = 0;
+        combo = 0;
+        maxCombo = 0;
         UpdateUI();
-        if (feedbackText) feedbackText.text = "";
+        ClearFeedback();
     }
 
+    // wywo³ywane przy trafieniu (QTEManager przekazuje dok³adnoœæ)
     public void RegisterHit(float deltaAbs, float perfectWindow, float goodWindow)
     {
-        string fb;
-        int add;
+        int points;
+        string message;
 
-        if (deltaAbs <= perfectWindow) { fb = "PERFECT"; add = 300; _combo++; }
-        else if (deltaAbs <= goodWindow) { fb = "GOOD"; add = 150; _combo++; }
-        else { fb = "OK"; add = 50; _combo = Mathf.Max(0, _combo); }
+        if (deltaAbs <= perfectWindow)
+        {
+            points = 100;
+            message = "Perfect!";
+        }
+        else if (deltaAbs <= goodWindow)
+        {
+            points = 70;
+            message = "Good!";
+        }
+        else
+        {
+            points = 50;
+            message = "Ok";
+        }
 
-        _score += add + (_combo * 5);
-        ShowFeedback(fb);
+        score += points;
+        combo++;
+        if (combo > maxCombo) maxCombo = combo;
+
+        ShowFeedback(message);
         UpdateUI();
     }
 
+    // wywo³ywane przy pudle
     public void RegisterMiss()
     {
-        _combo = 0;
-        ShowFeedback("MISS");
+        combo = 0;
+        ShowFeedback("Miss");
         UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        if (scoreText)
+            scoreText.text = $"Score: {score}";
+
+        if (comboText)
+        {
+            if (combo > 1)
+                comboText.text = $"Combo: {combo}";
+            else
+                comboText.text = "";
+        }
     }
 
     void ShowFeedback(string msg)
     {
         if (!feedbackText) return;
+
         feedbackText.text = msg;
-        feedbackText.canvasRenderer.SetAlpha(1f);
-        feedbackText.CrossFadeAlpha(0f, 0.4f, false);
+        CancelInvoke(nameof(ClearFeedback));
+        Invoke(nameof(ClearFeedback), 0.5f); // czyœci po 0.5 s
     }
 
-    void UpdateUI()
+    void ClearFeedback()
     {
-        if (scoreText) scoreText.text = _score.ToString();
-        if (comboText) comboText.text = _combo > 0 ? $"COMBO {_combo}" : "";
+        if (feedbackText)
+            feedbackText.text = "";
     }
 }

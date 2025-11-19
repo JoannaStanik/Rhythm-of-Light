@@ -11,15 +11,16 @@ public class QTEManager : MonoBehaviour
     public ScoreSystem score;
 
     [Header("Wizualne zbliżanie się kroku")]
-    [Tooltip("Ile sekund przed czasem kroku ikonka zaczyna spadać z góry")]
     public float appearWindow = 1f;
 
     [Header("Ruch ikon (spadanie)")]
-    [Tooltip("Pozycja Y na której ikonka startuje")]
     public float topY = 300f;
 
     [Tooltip("Pozycja Y linii trafienia")]
     public float hitY = 0f;
+
+    [Header("Usuwanie ikon")]
+    public float removeDelay = 0.2f;
 
     private PromptIcon[] _icons;
     private RectTransform[] _rects;
@@ -98,6 +99,8 @@ public class QTEManager : MonoBehaviour
                         float deltaAbs = Mathf.Abs(delta);
                         score.RegisterHit(deltaAbs, sequence.perfectWindow, sequence.goodWindow);
                     }
+
+                    RemovePrompt(i);
                 }
                 else
                 {
@@ -105,6 +108,8 @@ public class QTEManager : MonoBehaviour
                     _icons[i].SetMiss();
                     if (score != null)
                         score.RegisterMiss();
+
+                    RemovePrompt(i);
                 }
             }
 
@@ -114,13 +119,27 @@ public class QTEManager : MonoBehaviour
                 _icons[i].SetMiss();
                 if (score != null)
                     score.RegisterMiss();
+
+                RemovePrompt(i);
             }
+        }
+    }
+
+    void RemovePrompt(int i)
+    {
+        if (_icons != null && i >= 0 && i < _icons.Length && _icons[i] != null)
+        {
+            Destroy(_icons[i].gameObject, removeDelay);
         }
     }
 
     public void StartQTE()
     {
         _active = true;
+
+        if (score != null)
+            score.ResetScore();
+
         if (music != null)
             music.Play();
     }
