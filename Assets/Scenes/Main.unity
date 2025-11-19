@@ -2474,6 +2474,8 @@ MonoBehaviour:
   promptPrefab: {fileID: 4907711198888784269, guid: 5420b78b9cfa61846b3705235c739170, type: 3}
   score: {fileID: 1508145049}
   appearWindow: 1
+  topY: 300
+  hitY: -100
 --- !u!114 &1508145049
 MonoBehaviour:
   m_ObjectHideFlags: 0

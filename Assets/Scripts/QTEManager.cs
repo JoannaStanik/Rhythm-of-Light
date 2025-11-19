@@ -11,10 +11,18 @@ public class QTEManager : MonoBehaviour
     public ScoreSystem score;
 
     [Header("Wizualne zbliżanie się kroku")]
-    [Tooltip("Ile sekund przed czasem kroku ikonka zaczyna być widoczna")]
+    [Tooltip("Ile sekund przed czasem kroku ikonka zaczyna spadać z góry")]
     public float appearWindow = 1f;
 
+    [Header("Ruch ikon (spadanie)")]
+    [Tooltip("Pozycja Y na której ikonka startuje")]
+    public float topY = 300f;
+
+    [Tooltip("Pozycja Y linii trafienia")]
+    public float hitY = 0f;
+
     private PromptIcon[] _icons;
+    private RectTransform[] _rects;
     private bool[] _resolved;
     private bool _active = false;
 
@@ -26,35 +34,54 @@ public class QTEManager : MonoBehaviour
             return;
         }
 
-        _icons = new PromptIcon[sequence.steps.Length];
-        _resolved = new bool[sequence.steps.Length];
+        int count = sequence.steps.Length;
+        _icons = new PromptIcon[count];
+        _rects = new RectTransform[count];
+        _resolved = new bool[count];
 
-        for (int i = 0; i < sequence.steps.Length; i++)
+        for (int i = 0; i < count; i++)
         {
             var icon = Instantiate(promptPrefab, promptRoot);
             icon.SetKey(sequence.steps[i].key);
             icon.SetAlpha(0f);
+
+            var rt = icon.GetComponent<RectTransform>();
+            Vector2 pos = rt.anchoredPosition;
+            pos.y = topY;
+            rt.anchoredPosition = pos;
+
+
             _icons[i] = icon;
+            _rects[i] = rt;
         }
     }
 
     void Update()
     {
-        if (!_active)
+        if (!_active || sequence == null || sequence.steps == null)
             return;
 
         float t = music ? music.MusicTime : Time.time;
 
         for (int i = 0; i < sequence.steps.Length; i++)
         {
-            if (_resolved[i]) continue;
+            if (_resolved[i]) 
+                continue;
 
             var step = sequence.steps[i];
             float delta = t - step.time;
 
-            float alpha = Mathf.InverseLerp(appearWindow, 0f, Mathf.Abs(delta));
-            alpha = Mathf.Clamp01(1f - alpha);
-            _icons[i].SetAlpha(alpha);
+            float travelStart = step.time - appearWindow;
+            float travelEnd = step.time;
+
+            float fallT = Mathf.InverseLerp(travelStart, travelEnd, t);
+            fallT = Mathf.Clamp01(fallT);
+
+            Vector2 pos = _rects[i].anchoredPosition;
+            pos.y = Mathf.Lerp(topY, hitY, fallT);
+            _rects[i].anchoredPosition = pos;
+
+            _icons[i].SetAlpha(fallT);
 
             if (Input.GetKeyDown(step.key))
             {
