@@ -74,6 +74,7 @@ public class QTEManager : MonoBehaviour
             return;
 
         float t = music ? music.MusicTime : Time.time;
+        bool keyConsumedThisFrame = false;
 
         for (int i = 0; i < sequence.steps.Length; i++)
         {
@@ -95,7 +96,7 @@ public class QTEManager : MonoBehaviour
 
             _icons[i].SetAlpha(fallT);
 
-            if (Input.GetKeyDown(sequence.steps[i].key))
+            if (!keyConsumedThisFrame && Input.GetKeyDown(sequence.steps[i].key))
             {
                 float early = -sequence.allowedEarly;
                 float late = sequence.allowedLate;
@@ -112,6 +113,7 @@ public class QTEManager : MonoBehaviour
                     }
 
                     RemovePrompt(i);
+                    keyConsumedThisFrame = true;
                 }
                 else
                 {
