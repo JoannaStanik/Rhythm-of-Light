@@ -1,0 +1,5 @@
+Input Prompts - https://kenney.nl/assets/input-prompts - [30.11.2025] 
+(Keyboard & Mouse/keyboard_a_outline, 
+Keyboard & Mouse/keyboard_w_outline, 
+Keyboard & Mouse/keyboard_s_outline, 
+Keyboard & Mouse/keyboard_d_outline)

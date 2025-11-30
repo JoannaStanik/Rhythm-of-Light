@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c24bfd2348cce4aae7f89d5c527553, type: 3}
+  m_Name: Seq_Golden
+  m_EditorClassIdentifier: 
+  songName: Esta Noche
+  coverSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  steps:
+  - key: 119
+    delay: 2
+  - key: 97
+    delay: 0.5
+  - key: 115
+    delay: 0.5
+  - key: 100
+    delay: 2
+  - key: 115
+    delay: 0.75
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 97
+    delay: 1
+  - key: 119
+    delay: 2
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 2
+  - key: 115
+    delay: 1
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.75
+  - key: 119
+    delay: 0.5
+  - key: 97
+    delay: 2
+  - key: 97
+    delay: 0.25
+  - key: 100
+    delay: 0.75
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 1
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 2
+  - key: 97
+    delay: 0.75
+  - key: 119
+    delay: 0.5
+  - key: 115
+    delay: 0.75
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 115
+    delay: 0.25
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 115
+    delay: 2
+  allowedEarly: 0.12
+  allowedLate: 0.12
+  perfectWindow: 0.05
+  goodWindow: 0.1
