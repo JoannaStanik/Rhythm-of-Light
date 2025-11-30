@@ -10,6 +10,7 @@ public class QTEManager : MonoBehaviour
     public PromptIcon promptPrefab;
     public ScoreSystem score;
     public GameObject scorePanel;
+    public ResultScreen resultScreen;
 
     [Header("Wizualne zbliżanie się kroku")]
     public float appearWindow = 1f;
@@ -27,7 +28,9 @@ public class QTEManager : MonoBehaviour
     private RectTransform[] _rects;
     private bool[] _resolved;
     private float[] _stepTimes;
+
     private bool _active = false;
+    private int _resolvedCount = 0;
 
     void Start()
     {
@@ -42,7 +45,6 @@ public class QTEManager : MonoBehaviour
         _rects = new RectTransform[count];
         _resolved = new bool[count];
         _stepTimes = new float[count];
-
 
         float runningTime = 0f;
         for (int i = 0; i < count; i++)
@@ -59,13 +61,16 @@ public class QTEManager : MonoBehaviour
             pos.y = topY;
             rt.anchoredPosition = pos;
 
-
             _icons[i] = icon;
             _rects[i] = rt;
+            _resolved[i] = false;
         }
 
         if (scorePanel != null)
             scorePanel.SetActive(false);
+
+        if (resultScreen != null)
+            resultScreen.HideImmediate();
     }
 
     void Update()
@@ -78,7 +83,7 @@ public class QTEManager : MonoBehaviour
 
         for (int i = 0; i < sequence.steps.Length; i++)
         {
-            if (_resolved[i]) 
+            if (_resolved[i])
                 continue;
 
             float stepTime = _stepTimes[i];
@@ -90,11 +95,16 @@ public class QTEManager : MonoBehaviour
             float fallT = Mathf.InverseLerp(travelStart, travelEnd, t);
             fallT = Mathf.Clamp01(fallT);
 
-            Vector2 pos = _rects[i].anchoredPosition;
-            pos.y = Mathf.Lerp(topY, hitY, fallT);
-            _rects[i].anchoredPosition = pos;
+            RectTransform rt = _rects[i];
+            if (rt == null)
+                continue;
 
-            _icons[i].SetAlpha(fallT);
+            Vector2 pos = rt.anchoredPosition;
+            pos.y = Mathf.Lerp(topY, hitY, fallT);
+            rt.anchoredPosition = pos;
+
+            if (_icons[i] != null)
+                _icons[i].SetAlpha(fallT);
 
             if (!keyConsumedThisFrame && Input.GetKeyDown(sequence.steps[i].key))
             {
@@ -103,39 +113,61 @@ public class QTEManager : MonoBehaviour
 
                 if (delta >= early && delta <= late)
                 {
-                    _resolved[i] = true;
-                    _icons[i].SetHit();
-
-                    if (score != null)
-                    {
-                        float deltaAbs = Mathf.Abs(delta);
-                        score.RegisterHit(deltaAbs, sequence.perfectWindow, sequence.goodWindow);
-                    }
-
-                    RemovePrompt(i);
-                    keyConsumedThisFrame = true;
+                    RegisterHitForIndex(i, delta);
                 }
                 else
                 {
-                    _resolved[i] = true;
-                    _icons[i].SetMiss();
-                    if (score != null)
-                        score.RegisterMiss();
-
-                    RemovePrompt(i);
+                    RegisterMissForIndex(i);
                 }
+
+                keyConsumedThisFrame = true;
             }
 
-            if (delta > sequence.allowedLate && !_resolved[i])
+            if (!_resolved[i] && delta > sequence.allowedLate)
             {
-                _resolved[i] = true;
-                _icons[i].SetMiss();
-                if (score != null)
-                    score.RegisterMiss();
-
-                RemovePrompt(i);
+                RegisterMissForIndex(i);
             }
         }
+
+        if (_active && _resolvedCount >= sequence.steps.Length)
+        {
+            EndQTE();
+        }
+    }
+
+    void RegisterHitForIndex(int i, float delta)
+    {
+        if (_resolved[i]) return;
+
+        _resolved[i] = true;
+        _resolvedCount++;
+
+        if (_icons[i] != null)
+            _icons[i].SetHit();
+
+        if (score != null)
+        {
+            float deltaAbs = Mathf.Abs(delta);
+            score.RegisterHit(deltaAbs, sequence.perfectWindow, sequence.goodWindow);
+        }
+
+        RemovePrompt(i);
+    }
+
+    void RegisterMissForIndex(int i)
+    {
+        if (_resolved[i]) return;
+
+        _resolved[i] = true;
+        _resolvedCount++;
+
+        if (_icons[i] != null)
+            _icons[i].SetMiss();
+
+        if (score != null)
+            score.RegisterMiss();
+
+        RemovePrompt(i);
     }
 
     void RemovePrompt(int i)
@@ -144,17 +176,34 @@ public class QTEManager : MonoBehaviour
         {
             Destroy(_icons[i].gameObject, removeDelay);
         }
+
+        _icons[i] = null;
+        _rects[i] = null;
     }
+
 
     public void StartQTE()
     {
+        if (sequence == null || sequence.steps == null || sequence.steps.Length == 0)
+        {
+            Debug.LogWarning("QTEManager: próba startu bez sekwencji.");
+            return;
+        }
+
         _active = true;
+        _resolvedCount = 0;
+
+        for (int i = 0; i < _resolved.Length; i++)
+            _resolved[i] = false;
 
         if (score != null)
             score.ResetScore();
 
-        if (sequence != null)
+        if (scorePanel != null)
             scorePanel.SetActive(true);
+
+        if (resultScreen != null)
+            resultScreen.HideImmediate();
 
         if (music != null)
             music.Play();
@@ -162,11 +211,38 @@ public class QTEManager : MonoBehaviour
 
     public void StopQTE()
     {
+        if (!_active) return;
+
         _active = false;
+
         if (music != null)
             music.Stop();
 
-        if (scorePanel != null) 
+        if (scorePanel != null)
             scorePanel.SetActive(false);
+    }
+
+    void EndQTE()
+    {
+        if (!_active) return;
+
+        _active = false;
+
+        if (music != null)
+            music.Stop();
+
+        if (scorePanel != null)
+            scorePanel.SetActive(false);
+
+        if (resultScreen != null && score != null)
+        {
+            int finalScore = score.CurrentScore;
+            int maxCombo = score.MaxComboValue;
+            string songLabel = sequence != null && !string.IsNullOrEmpty(sequence.songName)
+                ? sequence.songName
+                : "Song";
+
+            resultScreen.Show(finalScore, maxCombo, songLabel);
+        }
     }
 }

@@ -13,6 +13,9 @@ public class ScoreSystem : MonoBehaviour
     public int combo;
     public int maxCombo;
 
+    public int CurrentScore => score;
+    public int MaxComboValue => maxCombo;
+
     public void ResetScore()
     {
         score = 0;

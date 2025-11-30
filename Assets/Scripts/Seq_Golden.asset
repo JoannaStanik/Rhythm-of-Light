@@ -117,6 +117,344 @@ MonoBehaviour:
     delay: 0.5
   - key: 115
     delay: 2
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 1
+  - key: 119
+    delay: 0.75
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 0.75
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 1
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 2
+  - key: 115
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 100
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 115
+    delay: 0.75
+  - key: 115
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.75
+  - key: 97
+    delay: 1
+  - key: 97
+    delay: 0.25
+  - key: 97
+    delay: 0.25
+  - key: 119
+    delay: 0.75
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 0.75
+  - key: 119
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 1
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.75
+  - key: 97
+    delay: 0.5
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 97
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 119
+    delay: 0.75
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 97
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 1
+  - key: 97
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 115
+    delay: 1
+  - key: 119
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.5
+  - key: 100
+    delay: 1
+  - key: 100
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 119
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 100
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 1
+  - key: 115
+    delay: 0.5
+  - key: 115
+    delay: 0.5
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 1
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 0.75
+  - key: 119
+    delay: 1
+  - key: 97
+    delay: 0.5
+  - key: 97
+    delay: 0.25
+  - key: 97
+    delay: 0.25
+  - key: 100
+    delay: 0.5
+  - key: 115
+    delay: 0.75
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 0.5
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 97
+    delay: 1
+  - key: 97
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 119
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 119
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 115
+    delay: 1
+  - key: 115
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 115
+    delay: 0.5
+  - key: 119
+    delay: 1
+  - key: 119
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 97
+    delay: 0.5
+  - key: 100
+    delay: 0.5
+  - key: 115
+    delay: 0.75
+  - key: 115
+    delay: 0.25
+  - key: 115
+    delay: 0.25
+  - key: 100
+    delay: 1
+  - key: 115
+    delay: 0.5
+  - key: 97
+    delay: 0.5
+  - key: 119
+    delay: 0.75
+  - key: 119
+    delay: 0.25
+  - key: 119
+    delay: 0.25
+  - key: 115
+    delay: 0.5
+  - key: 100
+    delay: 0.75
+  - key: 100
+    delay: 0.25
+  - key: 100
+    delay: 0.25
+  - key: 119
+    delay: 1
+  - key: 100
+    delay: 1
+  - key: 97
+    delay: 1
   allowedEarly: 0.12
   allowedLate: 0.12
   perfectWindow: 0.05
